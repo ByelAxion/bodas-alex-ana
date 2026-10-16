@@ -1,7 +1,7 @@
 import{useEffect,useState}from'react';import{Routes,Route,Link,useParams,useNavigate}from'react-router-dom';import{Heart,CalendarDays,Clock,MapPin,Copy,ChevronLeft,ChevronRight,Images,LockKeyhole,Users,LogOut,CheckCircle2,ExternalLink,ArrowLeft,PartyPopper}from'lucide-react';import{api}from'./services/api';
 const photoUrls = Array.from(
   { length: 10 },
-  (_, i) => `/${i + 1}.jpeg`
+  (_, i) => `/f${i + 1}.jpg`
 );
 function Intro(){const[show,setShow]=useState(!sessionStorage.getItem('introSeen'));useEffect(()=>{if(show){const t=setTimeout(()=>{setShow(false);sessionStorage.setItem('introSeen','1')},5000);return()=>clearTimeout(t)}},[show]);return show?<div className="intro"><div className="intro-frame"><span className="intro-small">UMA HISTÓRIA DE AMOR</span><h1>Bodas de Prata</h1><div className="intro-names">Alex <i>&</i> Ana</div><span className="intro-years">25 anos de união</span><div className="intro-line"/></div></div>:null}
 function Header(){return <header className="site-header"><Link to="/" className="brand"><span className="brand-mark">A<span>&</span>A</span><span><b>Bodas de Prata</b><small>Alex & Ana</small></span></Link><nav><a href="/#historia">Nossa história</a><Link to="/galeria">Galeria</Link><a href="/#detalhes">Informações</a></nav></header>}
