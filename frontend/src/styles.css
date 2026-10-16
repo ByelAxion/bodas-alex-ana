@@ -13,8 +13,10 @@
 .carousel-photo {
   width: min(100%, 700px);
   height: 450px;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   border-radius: 16px;
+  background-color: #fff;
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
 }
 
