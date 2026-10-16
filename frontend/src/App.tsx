@@ -1,9 +1,43 @@
 import{useEffect,useState}from'react';import{Routes,Route,Link,useParams,useNavigate}from'react-router-dom';import{Heart,CalendarDays,Clock,MapPin,Copy,ChevronLeft,ChevronRight,Images,LockKeyhole,Users,LogOut,CheckCircle2,ExternalLink,ArrowLeft,PartyPopper}from'lucide-react';import{api}from'./services/api';
-const photoUrls=Array.from({length:10},(_,i)=>`/images/fotos-casal/foto-${String(i+1).padStart(2,'0')}.jpg`);
+const photoUrls = Array.from(
+  { length: 10 },
+  (_, i) => `/${i + 1}.jpeg`
+);
 function Intro(){const[show,setShow]=useState(!sessionStorage.getItem('introSeen'));useEffect(()=>{if(show){const t=setTimeout(()=>{setShow(false);sessionStorage.setItem('introSeen','1')},5000);return()=>clearTimeout(t)}},[show]);return show?<div className="intro"><div className="intro-frame"><span className="intro-small">UMA HISTÓRIA DE AMOR</span><h1>Bodas de Prata</h1><div className="intro-names">Alex <i>&</i> Ana</div><span className="intro-years">25 anos de união</span><div className="intro-line"/></div></div>:null}
 function Header(){return <header className="site-header"><Link to="/" className="brand"><span className="brand-mark">A<span>&</span>A</span><span><b>Bodas de Prata</b><small>Alex & Ana</small></span></Link><nav><a href="/#historia">Nossa história</a><Link to="/galeria">Galeria</Link><a href="/#detalhes">Informações</a></nav></header>}
-function PhotoCarousel(){const[index,setIndex]=useState(0);const move=(n:number)=>setIndex(v=>(v+n+photoUrls.length)%photoUrls.length);return <div className="carousel"><button className="carousel-arrow left" onClick={()=>move(-1)} aria-label="Foto anterior"><ChevronLeft/></button>{[-1,0,1].map((offset)=>{const idx=(index+offset+photoUrls.length)%photoUrls.length;return <div key={offset} className={`photo-card photo-${offset===0?'center':offset<0?'left':'right'}`}><img src={photoUrls[idx]} onError={e=>{(e.currentTarget as HTMLImageElement).src=`https://images.unsplash.com/photo-${['1519741497674-611481863552','1511285560929-80b456fea0bc','1511895426328-dc8714191300'][idx%3]}?auto=format&fit=crop&w=900&q=80`}} alt={`Alex e Ana, foto ${idx+1}`}/><span>{String(idx+1).padStart(2,'0')}</span></div>})}<button className="carousel-arrow right" onClick={()=>move(1)} aria-label="Próxima foto"><ChevronRight/></button><div className="carousel-dots">{photoUrls.map((_,i)=><button key={i} aria-label={`Ir para foto ${i+1}`} className={i===index?'active':''} onClick={()=>setIndex(i)}/>)}</div></div>}
-function Home(){const[copy,setCopy]=useState(false);const pix='(11) 9456-4162';async function copyPix(){try{await navigator.clipboard.writeText(pix);setCopy(true);setTimeout(()=>setCopy(false),2200)}catch{alert(`Chave Pix: ${pix}`)}}return <><Intro/><Header/><main><section className="hero"><div className="hero-kicker"><span/> 12 DE DEZEMBRO DE 2026 <span/></div><h1>Uma vida inteira<br/><em>escolhendo o amor.</em></h1><p className="hero-sub">Com a bênção de Deus, celebramos 25 anos de uma história escrita a dois. Será uma alegria ter você conosco!</p><div className="hero-flourish"><Heart size={16}/><span/></div><div className="invite-card"><div className="invite-icon"><Heart size={21}/></div><p className="eyebrow">COM CARINHO, CONVIDAMOS VOCÊ</p><h2>Você é o nosso convidado!</h2><p>Venha celebrar esse momento tão especial com a gente.</p><div className="invite-rule"/><p className="guest-count"><Users size={17}/> Convite especial para você e sua família</p><a className="btn-neon" href="#detalhes">VER DETALHES DA FESTA <ChevronRight size={17}/></a><small>Se recebeu um link exclusivo, abra-o para confirmar sua presença.</small></div><a className="scroll-cue" href="#historia">DESLIZE PARA DESCOBRIR <span>↓</span></a></section>
+function PhotoCarousel() {
+  const [index, setIndex] = useState(0);
+
+  return (
+    <div className="photo-carousel">
+      <button
+        onClick={() =>
+          setIndex((prev) =>
+            (prev - 1 + photoUrls.length) % photoUrls.length
+          )
+        }
+        aria-label="Foto anterior"
+      >
+        ❮
+      </button>
+
+      <img
+        src={photoUrls[index]}
+        alt={`Foto do casal ${index + 1}`}
+        className="carousel-photo"
+      />
+
+      <button
+        onClick={() =>
+          setIndex((prev) => (prev + 1) % photoUrls.length)
+        }
+        aria-label="Próxima foto"
+      >
+        ❯
+      </button>
+    </div>
+  );
+}function Home(){const[copy,setCopy]=useState(false);const pix='(11) 9456-4162';async function copyPix(){try{await navigator.clipboard.writeText(pix);setCopy(true);setTimeout(()=>setCopy(false),2200)}catch{alert(`Chave Pix: ${pix}`)}}return <><Intro/><Header/><main><section className="hero"><div className="hero-kicker"><span/> 12 DE DEZEMBRO DE 2026 <span/></div><h1>Uma vida inteira<br/><em>escolhendo o amor.</em></h1><p className="hero-sub">Com a bênção de Deus, celebramos 25 anos de uma história escrita a dois. Será uma alegria ter você conosco!</p><div className="hero-flourish"><Heart size={16}/><span/></div><div className="invite-card"><div className="invite-icon"><Heart size={21}/></div><p className="eyebrow">COM CARINHO, CONVIDAMOS VOCÊ</p><h2>Você é o nosso convidado!</h2><p>Venha celebrar esse momento tão especial com a gente.</p><div className="invite-rule"/><p className="guest-count"><Users size={17}/> Convite especial para você e sua família</p><a className="btn-neon" href="#detalhes">VER DETALHES DA FESTA <ChevronRight size={17}/></a><small>Se recebeu um link exclusivo, abra-o para confirmar sua presença.</small></div><a className="scroll-cue" href="#historia">DESLIZE PARA DESCOBRIR <span>↓</span></a></section>
 <section className="story section" id="historia"><div className="section-kicker">25 ANOS DE AMOR</div><h2>Uma história que merece<br/><em>ser celebrada.</em></h2><p className="section-copy">São 25 anos de parceria, cuidado, fé e memórias. Cada capítulo trouxe uma nova razão para agradecer — e queremos viver este próximo momento ao lado de pessoas especiais como você.</p><div className="silver-badge"><span>25</span><small>ANOS<br/>JUNTOS</small><Heart size={19}/></div></section>
 <section className="gallery-section section"><div className="section-kicker">MEMÓRIAS PRECIOSAS</div><h2>Momentos que contam<br/><em>a nossa história.</em></h2><PhotoCarousel/><Link className="btn-outline" to="/galeria"><Images size={17}/> VEJA MAIS FOTOS <ChevronRight size={17}/></Link></section>
 <section className="details-section section" id="detalhes"><div className="section-kicker">RESERVE ESTA DATA</div><h2>Vamos celebrar <em>juntos?</em></h2><div className="details-card"><div className="details-top"><span className="month">DEZEMBRO</span><strong>12</strong><span>SÁBADO · 2026</span></div><div className="detail-row"><CalendarDays/><div><small>DATA</small><b>12 de dezembro de 2026</b></div></div><div className="detail-row"><Clock/><div><small>HORÁRIO</small><b>Às 17h</b></div></div><div className="detail-row"><MapPin/><div><small>LOCAL</small><b>Espaço Maktub</b><span>Av. Morais Costa, nº 125, Vila Industrial</span></div></div><a className="btn-navy" href="https://www.google.com/maps/search/?api=1&query=Espa%C3%A7o+Maktub+Av.+Morais+Costa+125+Vila+Industrial" target="_blank" rel="noreferrer">COMO CHEGAR <ExternalLink size={16}/></a></div></section>
