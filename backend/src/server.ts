@@ -10,6 +10,7 @@ import { z } from 'zod';
 import { pool } from './db.js';
 dotenv.config();
 const app = express();
+app.set("trust proxy", 1);
 const port = Number(process.env.PORT || 3001);
 const jwtSecret = process.env.JWT_SECRET || 'development-only-change-this-secret';
 app.use(helmet());
