@@ -78,7 +78,7 @@ Para enviar a notificação automaticamente à noiva, configure no `backend/.env
 ```env
 WHATSAPP_TOKEN=token_de_acesso_da_meta
 WHATSAPP_PHONE_NUMBER_ID=id_do_numero_de_whatsapp_business
-WHATSAPP_TO=5511945644162
+WHATSAPP_TO=55119945644162
 ```
 
 O envio usa a WhatsApp Business Platform. Não use o token no frontend. É necessário configurar a conta, permissões e número na Meta. Se não houver credenciais, a confirmação de presença é salva normalmente e nenhuma mensagem é enviada.
